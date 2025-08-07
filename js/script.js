@@ -2,6 +2,7 @@
         let requests = [];
         let reportData = [];
         let currentSensorData = null;
+        let URL_Dinamica = "https://sensorapi-railway.up.railway.app/";
 
         // Inicialización al cargar la página
         document.addEventListener("DOMContentLoaded", function () {
@@ -128,7 +129,7 @@
             const password = document.getElementById("password").value.trim();
 
             try {
-                const response = await fetch("http://localhost:3000/clientstores", {
+                const response = await fetch(URL_Dinamica+"clientstores", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -409,7 +410,7 @@
             fetchButton.disabled = true;
 
             const isDaily = document.getElementById("optionDay").checked;
-            const url = isDaily ? "http://localhost:3000/sales" : "http://localhost:3000/sales_hourly";
+            const url = isDaily ? URL_Dinamica+"/sales" : URL_Dinamica+"/sales_hourly";
             let successfulRequests = 0;
             let errorMessage = "";
 
@@ -497,7 +498,7 @@
             const selectedOption = sensorSelect.options[sensorSelect.selectedIndex];
 
             try {
-                const response = await fetch(`http://localhost:3000/${endpoint}`, {
+                const response = await fetch(URL_Dinamica+`${endpoint}`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
