@@ -410,7 +410,7 @@
             fetchButton.disabled = true;
 
             const isDaily = document.getElementById("optionDay").checked;
-            const url = isDaily ? URL_Dinamica+"/sales" : URL_Dinamica+"/sales_hourly";
+            const url = isDaily ? URL_Dinamica+"sales" : URL_Dinamica+"sales_hourly";
             let successfulRequests = 0;
             let errorMessage = "";
 
