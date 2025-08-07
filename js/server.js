@@ -4,6 +4,7 @@ const axios = require("axios");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const URL_BI = "https://boostbi.v-count.com/api/v4/";
 
 
 app.use(cors());
@@ -27,7 +28,7 @@ app.post("/proxy", async (req, res) => {
     try {
         console.log("Datos enviados a la API:", req.body);
 
-        const response = await axios.post("https://boostbi.v-count.com/api/v4/import_count", req.body, {
+        const response = await axios.post(URL_BI+"import_count", req.body, {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
                 "Accept": "application/json",
@@ -49,7 +50,7 @@ app.post("/sales_hourly", async (req, res) => {
     try {
         console.log("Datos enviados a la API (sales_hourly):", req.body);
 
-        const response = await axios.post("https://boostbi.v-count.com/api/v4/sales_hourly", req.body, {
+        const response = await axios.post(URL_BI+"sales_hourly", req.body, {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
                 "Accept": "application/json",
@@ -71,7 +72,7 @@ app.post("/sales", async (req, res) => {
     try {
         console.log("Datos enviados a la API (sales):", req.body);
 
-        const response = await axios.post("https://boostbi.v-count.com/api/v4/sales", req.body, {
+        const response = await axios.post(URL_BI+"sales", req.body, {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
                 "Accept": "application/json",
@@ -93,7 +94,7 @@ app.post("/exporttraficcday", async (req, res) => {
     try {
         console.log("Datos enviados a la API (sales):", req.body);
 
-        const response = await axios.post("https://boostbi.v-count.com/api/v4/vcountapi_daily", req.body, {
+        const response = await axios.post(URL_BI+"vcountapi_daily", req.body, {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
                 "Accept": "application/json",
@@ -115,7 +116,7 @@ app.post("/exporttraficchour", async (req, res) => {
     try {
         console.log("Datos enviados a la API (sales):", req.body);
 
-        const response = await axios.post("https://boostbi.v-count.com/api/v4/vcountapi", req.body, {
+        const response = await axios.post(URL_BI+"vcountapi", req.body, {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
                 "Accept": "application/json",
@@ -136,7 +137,7 @@ app.post("/exporttraficchour", async (req, res) => {
 app.post("/clientstores", async (req, res) => {
     try {
 
-        const response = await axios.post("https://boostbi.v-count.com/api/v4/clientstores", req.body, {
+        const response = await axios.post(URL_BI+"clientstores", req.body, {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
                 "Accept": "application/json",
