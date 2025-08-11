@@ -10,8 +10,6 @@ const URL_BI = "https://boostbi.v-count.com/api/v4/";
 app.use(cors());
 app.use(express.json());
 
-
-
 const path = require("path");
 
 // Servir archivos estáticos (HTML, CSS, JS)
@@ -20,29 +18,6 @@ app.use(express.static(path.join(__dirname, "..")));
 // Ruta principal para servir index.html
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "index.html"));
-});
-
-
-// Ruta para manejar la importación de datos
-app.post("/proxy", async (req, res) => {
-    try {
-        console.log("Datos enviados a la API:", req.body);
-
-        const response = await axios.post(URL_BI+"import_count", req.body, {
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-                "Accept": "application/json",
-            }
-        });
-
-        res.json(response.data);
-    } catch (error) {
-        console.error("Error en la API externa:", error.response?.data || error.message);
-        res.status(error.response?.status || 500).json({
-            error: "Error en la solicitud",
-            details: error.response?.data || error.message
-        });
-    }
 });
 
 // Nueva ruta para obtener datos de ventas por hora
@@ -170,6 +145,29 @@ app.post("/login", async (req, res) => {
         });
     }
 });
+
+// Nueva ruta para importar usuarios (Import Hourly Staff Schedule)
+app.post("/import_staff_schedule", async (req, res) => {
+    try {
+        console.log("Datos enviados a la API (sales_hourly):", req.body);
+
+        const response = await axios.post(URL_BI+"import_staff_schedule", req.body, {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Accept": "application/json",
+            }
+        });
+
+        res.json(response.data);
+    } catch (error) {
+        console.error("Error en la API externa (sales_hourly):", error.response?.data || error.message);
+        res.status(error.response?.status || 500).json({
+            error: "Error en la solicitud",
+            details: error.response?.data || error.message
+        });
+    }
+});
+
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);

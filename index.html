@@ -13,182 +13,217 @@
 </head>
 
 <body>
-    <main class="container py-4">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h2 class="mb-0">Sistema de Gestión de Sensores</h2>
-                    </div>
-                    <div class="card-body">
-                        <!-- Sección de Autenticación -->
-                        <section id="authSection" class="mb-4">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="username" class="form-label">Usuario</label>
-                                    <input type="text" id="username" class="form-control"
-                                        placeholder="Ingrese su usuario">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="password" class="form-label">Contraseña</label>
-                                    <input type="password" id="password" class="form-control"
-                                        placeholder="Ingrese su contraseña">
-                                </div>
-                                <div class="col-12 text-center">
-                                    <button id="showSensors" class="btn btn-secondary px-4" disabled>
-                                        <i class="bi bi-list-ul me-2"></i>Mostrar Sensores
-                                    </button>
-                                    <div id="authError" class="text-danger mt-2"></div> <!-- Agrega esto -->
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- Contenedor de Sensores -->
-                        <div id="sensorContainer" class="mb-4"></div>
-
-                        <!-- Sección Principal (oculta inicialmente) -->
-                        <div id="InfoGeneral" class="d-none">
-                            <div class="row mb-4">
-                                <div class="col-md-6 mb-3 mb-md-0">
-                                    <div class="card h-100">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Configuración del Reporte</h5>
-                                            <div class="mb-3">
-                                                <label class="form-label">Tipo de Reporte:</label>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="option"
-                                                        id="optionDay" value="day" checked>
-                                                    <label class="form-check-label" for="optionDay">Por Día</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="option"
-                                                        id="optionHour" value="hour">
-                                                    <label class="form-check-label" for="optionHour">Por Hora</label>
-                                                </div>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label for="operationType" class="form-label">Tipo de operación:</label>
-                                                <select id="operationType" class="form-select">
-                                                    <option value="" disabled selected>Seleccione una opción</option>
-                                                    <option value="sales">Ventas</option>
-                                                    <option value="transactions">Transacciones</option>
-                                                </select>
-                                            </div>
-                                        </div>
+        <main class="container py-4">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <h2 class="mb-0"><i class="bi bi-cpu me-2"></i>Sistema de Gestión de Sensores</h2>
+                        </div>
+                        <div class="card-body">
+                            <!-- Sección de Autenticación -->
+                            <section id="authSection" class="mb-4 auth-section">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="username" class="form-label">Usuario</label>
+                                        <input type="text" id="username" class="form-control"
+                                            placeholder="Ingrese su usuario">
                                     </div>
-                                </div>
-
-                                <!-- Sección de Archivos -->
-                                <div id="fileSection" class="col-md-6 d-none">
-                                    <div class="card h-100">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Cargar Archivo Excel</h5>
-                                            <div class="mb-3">
-                                                <label class="form-label">Seleccione un archivo:</label>
-                                                <div class="file-input-container w-100">
-                                                    <button class="file-input-btn w-100">
-                                                        <i class="bi bi-file-earmark-arrow-up me-2"></i>Seleccionar
-                                                        Archivo
-                                                    </button>
-                                                    <input type="file" id="fileInput" class="file-input"
-                                                        accept=".xls,.xlsx">
-                                                </div>
-                                                <small class="text-muted">Formatos aceptados: .xls, .xlsx</small>
-                                                <p id="fileError" class="text-danger mt-2 small"></p>
-                                                <p id="dataError" class="text-danger mt-2 small"></p>
-                                            </div>
-                                            <div class="text-center">
-                                                <button id="fetchData" class="btn btn-primary px-4" disabled>
-                                                    <i class="bi bi-send me-2"></i>Realizar Petición
-                                                </button>
-                                            </div>
-                                            <p id="recordCount" class="text-center mt-3 mb-0 small"></p>
-                                            <div id="requestStatus" class="status-message text-center mt-2"></div>
-                                            <!-- Indicador de Progreso -->
-                                            <div id="processingStatus" class="text-center my-2"></div>
-                                            <div class="progress mb-2" style="height: 20px; display:none;"
-                                                id="progressBarContainer">
-                                                <div id="progressBar"
-                                                    class="progress-bar progress-bar-striped progress-bar-animated"
-                                                    role="progressbar" style="width: 0%">0%</div>
-                                            </div>
-                                        </div>
+                                    <div class="col-md-6">
+                                        <label for="password" class="form-label">Contraseña</label>
+                                        <input type="password" id="password" class="form-control"
+                                            placeholder="Ingrese su contraseña">
                                     </div>
-                                </div>
-
-                                <!-- Sección de Transacciones -->
-                                <div id="transactionSection" class="col-md-6 d-none">
-                                    <div class="card h-100">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Generar Reporte</h5>
-                                            <div class="row g-3">
-                                                <div class="col-md-6">
-                                                    <label for="fromDate" class="form-label">Fecha Desde:</label>
-                                                    <input type="date" id="fromDate" class="form-control">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="toDate" class="form-label">Fecha Hasta:</label>
-                                                    <input type="date" id="toDate" class="form-control">
-                                                </div>
-                                                <div class="col-12 text-center">
-                                                    <button id="generateReport" class="btn btn-success px-4">
-                                                        <i class="bi bi-file-earmark-bar-graph me-2"></i>Generar Reporte
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Tabla de Datos -->
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <h5 class="card-title">Datos de los Sensores</h5>
-                                    <div class="table-responsive">
-                                        <table class="table table-hover table-bordered" id="dataTable">
-                                            <thead id="tableHeader" class="table-light">
-                                                <tr>
-                                                    <th>Fecha</th>
-                                                    <th>Ventas</th>
-                                                    <th>Transacciones</th>
-                                                    <th>Unidades</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tableBody"></tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Resultados del Reporte -->
-                            <div id="reportResults" class="card d-none">
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h5 class="card-title mb-0">Resultados del Reporte</h5>
-                                        <button id="exportToExcel" class="btn btn-info">
-                                            <i class="bi bi-file-earmark-excel me-2"></i>Exportar a Excel
+                                    <div class="col-12 text-center mt-3">
+                                        <button id="showSensors" class="btn btn-secondary px-4" disabled>
+                                            <i class="bi bi-list-ul me-2"></i>Mostrar Sensores
                                         </button>
+                                        <div id="authError" class="text-danger mt-2"></div>
                                     </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-hover table-bordered" id="reportTable">
-                                            <thead id="reportTableHeader" class="table-light"></thead>
-                                            <tbody id="reportTableBody"></tbody>
-                                        </table>
+                                </div>
+                            </section>
+
+                            <!-- Contenedor de Sensores -->
+                            <div id="sensorContainer" class="mb-4 row">
+                                <!-- Los sensores se cargarán aquí dinámicamente -->
+                            </div>
+
+                            <!-- Sección Principal (oculta inicialmente) -->
+                            <div id="InfoGeneral" class="d-none">
+                                <div class="row mb-4">
+                                    <div class="col-md-6 mb-3 mb-md-0">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <!-- Sección de Tipo de Operación movida arriba -->
+                                                <div class="mb-4">
+                                                    <h5 class="card-title section-title">Tipo de operación</h5>
+                                                    <select id="operationType" class="form-select">
+                                                        <option value="" disabled selected>Seleccione una opción</option>
+                                                        <option value="sales">Importar Ventas</option>
+                                                        <option value="transactions">Exportar transacciones</option>
+                                                        <option value="staff_schedule">Importar Horario para personal</option>
+                                                    </select>
+                                                </div>
+
+                                                <!-- Sección de Tipo de Reporte - Ahora condicional -->
+                                                <div id="reportTypeSection"class="d-none">
+                                                    <h5 class="card-title section-title">Configuración del Reporte</h5>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Tipo de Reporte:</label>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="option"
+                                                                id="optionDay" value="day" checked>
+                                                            <label class="form-check-label" for="optionDay">Por Día</label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="option"
+                                                                id="optionHour" value="hour">
+                                                            <label class="form-check-label" for="optionHour">Por Hora</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Sección de Archivos -->
+                                    <div id="fileSection" class="col-md-6 d-none">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title section-title">Cargar Archivo Excel</h5>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Seleccione un archivo:</label>
+                                                    <div class="file-input-container w-100">
+                                                        <button class="file-input-btn w-100">
+                                                            <i class="bi bi-file-earmark-arrow-up me-2"></i>Seleccionar
+                                                            Archivo
+                                                        </button>
+                                                        <input type="file" id="fileInput" class="file-input"
+                                                            accept=".xls,.xlsx">
+                                                    </div>
+                                                    <small class="text-muted">Formatos aceptados: .xls, .xlsx</small>
+                                                    <p id="fileError" class="text-danger mt-2 small"></p>
+                                                    <p id="dataError" class="text-danger mt-2 small"></p>
+                                                </div>
+                                                <div class="text-center">
+                                                    <button id="fetchData" class="btn btn-primary px-4" disabled>
+                                                        <i class="bi bi-send me-2"></i>Realizar Petición
+                                                    </button>
+                                                </div>
+                                                <p id="recordCount" class="text-center mt-3 mb-0 small"></p>
+                                                <div id="requestStatus" class="status-message text-center mt-2"></div>
+                                                <!-- Indicador de Progreso -->
+                                                <div id="processingStatus" class="text-center my-2"></div>
+                                                <div class="progress mb-2" style="height: 20px; display:none;"
+                                                    id="progressBarContainer">
+                                                    <div id="progressBar"
+                                                        class="progress-bar progress-bar-striped progress-bar-animated"
+                                                        role="progressbar" style="width: 0%">0%</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Sección de Transacciones -->
+                                    <div id="transactionSection" class="col-md-6 d-none">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <h5 class="card-title section-title">Generar Reporte</h5>
+                                                <div class="row g-3">
+                                                    <div class="col-md-6">
+                                                        <label for="fromDate" class="form-label">Fecha Desde:</label>
+                                                        <input type="date" id="fromDate" class="form-control">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="toDate" class="form-label">Fecha Hasta:</label>
+                                                        <input type="date" id="toDate" class="form-control">
+                                                    </div>
+                                                    <div class="col-12 text-center mt-3">
+                                                        <button id="generateReport" class="btn btn-success px-4">
+                                                            <i class="bi bi-file-earmark-bar-graph me-2"></i>Generar Reporte
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tabla de Datos -->
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <h5 class="card-title section-title">Datos de los Sensores</h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-bordered" id="dataTable">
+                                                <thead id="tableHeader" class="table-light">
+                                                    <tr>
+                                                        <th>Fecha</th>
+                                                        <th>Ventas</th>
+                                                        <th>Transacciones</th>
+                                                        <th>Unidades</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tableBody"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
+
+                                <!-- Resultados del Reporte -->
+                                <div id="reportResults" class="card d-none">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="card-title section-title mb-0">Resultados del Reporte</h5>
+                                            <button id="exportToExcel" class="btn btn-info">
+                                                <i class="bi bi-file-earmark-excel me-2"></i>Exportar a Excel
+                                            </button>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover table-bordered" id="reportTable">
+                                                <thead id="reportTableHeader" class="table-light"></thead>
+                                                <tbody id="reportTableBody"></tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
-
+        </main>
     <script>
+
+            
+            // Manejo de tipo de operación
+            const operationType = document.getElementById('operationType');
+            const reportTypeSection = document.getElementById('reportTypeSection');
+            const fileSection = document.getElementById('fileSection');
+            const transactionSection = document.getElementById('transactionSection');
+            
+            operationType.addEventListener('change', function() {
+                const value = this.value;
+                
+                // Mostrar/ocultar sección de tipo de reporte
+                if(value === 'staff_schedule') {
+                    reportTypeSection.classList.add('d-none');
+                } else {
+                    reportTypeSection.classList.remove('d-none');
+                }
+                
+                // Mostrar sección de archivos para "Importar Horario"
+                if(value === 'staff_schedule') {
+                    fileSection.classList.remove('d-none');
+                    transactionSection.classList.add('d-none');
+                } 
+                // Mostrar sección de transacciones para otros tipos
+                else {
+                    fileSection.classList.add('d-none');
+                    transactionSection.classList.remove('d-none');
+                }
+            });
  
     </script>
 </body>
